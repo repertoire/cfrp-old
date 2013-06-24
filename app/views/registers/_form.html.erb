@@ -128,15 +128,6 @@ $(function() {
     <%= f.submit %>
   </div>
 
-  <%= f.fields_for :verification_state do |vs| %>
-  <div class="control-group">
-    <%= vs.label :name, "verified?", :class => 'control-label' %>
-    <div class="controls">
-      <%= collection_select(:register, :verification_state_id, VerificationState.all, :id, :name) %>
-    </div>
-  </div>
-  <% end %>
-
   <div class="control-group">
     <%= f.label :register_num, 'Number', :class => 'control-label' %>
     <div class="controls">
@@ -419,6 +410,16 @@ $(function() {
       <%= f.text_area :for_editor_notes %>
     </div>
   </div>
+
+  <%= f.fields_for :verification_state do |vs| %>
+  <div class="control-group">
+    <%= vs.label :name, "verified?", :class => 'control-label' %>
+    <div class="controls">
+      <%= collection_select(:register, :verification_state_id, VerificationState.all, :id, :name) %>
+    </div>
+  </div>
+  <% end %>
+
   <div class="actions submit">
     <%= f.submit %>
   </div>
