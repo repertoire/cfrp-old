@@ -1,8 +1,11 @@
 ActiveAdmin.register Register do
-  menu :priority => 1
+  menu false
+  # menu :priority => 1
   config.per_page = 20
   actions :all, :except => [:new]
-    
+
+  config = Cfrp::Application.config
+
   scope :all, :default => true
   scope :unentered
   scope :unverified
@@ -60,7 +63,7 @@ ActiveAdmin.register Register do
     before_filter :only => [:index] do
       if params['commit'].blank?
          #country_contains or country_eq .. or depending of your filter type
-         params['q'] = {:date_gte => '1700-01-01', :date_lte => '1800-01-01'} 
+         params['q'] = {:date_gte => '1600-01-01', :date_lte => '1800-01-01'} 
       end
     end
   end
@@ -83,15 +86,15 @@ ActiveAdmin.register Register do
         Rails.logger.info current_user.email + " is an admin!\n\n"
         button_to("Supprimer", { :action => "destroy", :id => register.id }, :confirm => "Are you sure?", :method => :delete)
         link_to("Modifier", edit_admin_register_path(register))
-        link_to("Formulaire de saisie", "/registers/#{register.id}/edit", target: "_blank")
+        link_to("Formulaire de saisie", "#{config.path_prefix}/registers/#{register.id}/edit", target: "_blank")
       else
-        link_to("Formulaire de saisie", "/registers/#{register.id}/edit", target: "_blank")
+        link_to("Formulaire de saisie", "#{config.path_prefix}/registers/#{register.id}/edit", target: "_blank")
       end
     end
   end
 
   index :as => :grid, :columns => 4 do |register|
-    link_to(image_tag("/#{register.register_images[0].filepath}", width: "200"), "/registers/#{register.id}/edit", target: "_blank")
+    link_to(image_tag("/#{register.register_images[0].filepath}", width: "200"), "#{config.path_prefix}/registers/#{register.id}/edit", target: "_blank")
   end
     
   show do |register|
